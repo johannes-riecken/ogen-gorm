@@ -1,0 +1,23 @@
+### Create user gives 201
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "Richard Stallman",
+  "id": 1
+}
+
+### Create user with duplicate ID gives 409
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+  "name": "Linus Torvalds",
+  "id": 1
+}
+
+### Get user gives 200
+GET http://localhost:8080/users/1
+
+### Get non-existing user gives 404
+GET http://localhost:8080/users/2

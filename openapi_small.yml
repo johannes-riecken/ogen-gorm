@@ -1,0 +1,83 @@
+openapi: 3.0.1
+info:
+  title: standard public schema
+  description: ""
+  version: 12.2.3
+externalDocs:
+  description: PostgREST Documentation
+  url: https://postgrest.org/en/v12/references/api.html
+servers:
+- url: http://0.0.0.0:3000/
+paths:
+  /users:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/user'
+        default:
+          description: Not OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user'
+      responses:
+        201:
+          description: Created
+        default:
+          description: Not OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+              
+  /users/{userId}:
+    get:
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+        default:
+          description: Not OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+components:
+  schemas:
+    user:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          x-oapi-codegen-extra-tags:
+            gorm: primaryKey
+        name:
+          type: string
+    error:
+      type: string
